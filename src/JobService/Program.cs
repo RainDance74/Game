@@ -51,7 +51,6 @@ internal class Program
                         h.Password(rabbitMqConfig?.Password);
                     });
                 });
-
             });
         });
 
