@@ -1,0 +1,64 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34607.119
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2EE7C241-4AD6-4FB0-BBEE-88FF8BAB4F92}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TgWorker", "src\TgWorker\TgWorker.csproj", "{1F849414-80A5-426D-B035-588994351117}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService", "src\UserService\UserService.csproj", "{CC95E007-8F59-4D7A-A479-9B83991C19FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobService", "src\JobService\JobService.csproj", "{141E092F-5960-4268-9C6A-C9719D6783E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrchestratorService", "src\OrchestratorService\OrchestratorService.csproj", "{547EDE84-2C10-4E94-A673-F31A3DA2226A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{0577BE65-3578-4F1A-B977-83F14FC6362D}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "JobService.Contracts", "src\JobService.Contracts\JobService.Contracts.shproj", "{7947D34B-B20E-4334-A87A-9C4266EC0C25}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "UserService.Contracts", "src\UserService.Contracts\UserService.Contracts.shproj", "{9CDD93B9-9DFB-43B1-A39C-F414DC6AC5FB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1F849414-80A5-426D-B035-588994351117}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F849414-80A5-426D-B035-588994351117}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F849414-80A5-426D-B035-588994351117}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F849414-80A5-426D-B035-588994351117}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC95E007-8F59-4D7A-A479-9B83991C19FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC95E007-8F59-4D7A-A479-9B83991C19FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC95E007-8F59-4D7A-A479-9B83991C19FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC95E007-8F59-4D7A-A479-9B83991C19FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{141E092F-5960-4268-9C6A-C9719D6783E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{141E092F-5960-4268-9C6A-C9719D6783E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{141E092F-5960-4268-9C6A-C9719D6783E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{141E092F-5960-4268-9C6A-C9719D6783E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{547EDE84-2C10-4E94-A673-F31A3DA2226A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{547EDE84-2C10-4E94-A673-F31A3DA2226A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{547EDE84-2C10-4E94-A673-F31A3DA2226A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{547EDE84-2C10-4E94-A673-F31A3DA2226A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1F849414-80A5-426D-B035-588994351117} = {2EE7C241-4AD6-4FB0-BBEE-88FF8BAB4F92}
+		{CC95E007-8F59-4D7A-A479-9B83991C19FF} = {2EE7C241-4AD6-4FB0-BBEE-88FF8BAB4F92}
+		{141E092F-5960-4268-9C6A-C9719D6783E4} = {2EE7C241-4AD6-4FB0-BBEE-88FF8BAB4F92}
+		{547EDE84-2C10-4E94-A673-F31A3DA2226A} = {2EE7C241-4AD6-4FB0-BBEE-88FF8BAB4F92}
+		{0577BE65-3578-4F1A-B977-83F14FC6362D} = {2EE7C241-4AD6-4FB0-BBEE-88FF8BAB4F92}
+		{7947D34B-B20E-4334-A87A-9C4266EC0C25} = {0577BE65-3578-4F1A-B977-83F14FC6362D}
+		{9CDD93B9-9DFB-43B1-A39C-F414DC6AC5FB} = {0577BE65-3578-4F1A-B977-83F14FC6362D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C2E6103A-9EB7-482A-AF1D-6DBE1D6BF703}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		src\JobService.Contracts\JobService.Contracts.projitems*{7947d34b-b20e-4334-a87a-9c4266ec0c25}*SharedItemsImports = 13
+		src\UserService.Contracts\UserService.Contracts.projitems*{9cdd93b9-9dfb-43b1-a39c-f414dc6ac5fb}*SharedItemsImports = 13
+	EndGlobalSection
+EndGlobal
