@@ -1,5 +1,6 @@
 using System.Reflection;
 
+using UserService.Configurations;
 
 internal class Program
 {
@@ -17,6 +18,9 @@ internal class Program
 
         builder.ConfigureServices((hostContext, services) =>
         {
+            IConfigurationSection rabbitMqSection = hostContext.Configuration.GetSection("RabbitMqConfiguration");
+            RabbitMqConfiguration? rabbitMqConfig = rabbitMqSection.Get<RabbitMqConfiguration>();
+
             // TODO: Configure services
         });
 
