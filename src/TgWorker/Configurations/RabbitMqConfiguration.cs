@@ -1,4 +1,4 @@
-﻿namespace ApiService.Configurations;
+﻿namespace TgWorker.Configurations;
 
 public class RabbitMqConfiguration
 {

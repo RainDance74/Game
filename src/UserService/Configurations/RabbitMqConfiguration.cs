@@ -1,4 +1,4 @@
-﻿namespace ApiService.Configurations;
+﻿namespace UserService.Configurations;
 
 public class RabbitMqConfiguration
 {

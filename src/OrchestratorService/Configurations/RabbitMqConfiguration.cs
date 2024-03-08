@@ -1,4 +1,4 @@
-﻿namespace ApiService.Configurations;
+﻿namespace OrchestratorService.Configurations;
 
 public class RabbitMqConfiguration
 {
