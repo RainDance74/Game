@@ -9,5 +9,7 @@
     <Import_RootNamespace>JobService.Contracts</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)JobCommands.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JobResponses.cs" />
   </ItemGroup>
 </Project>
