@@ -1,16 +1,25 @@
 using System.Reflection;
 
-using OrchestratorService;
 
 internal class Program
 {
     private static void Main(string[] args)
     {
         Console.Title = Assembly.GetExecutingAssembly().GetName().Name!;
-        HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
-        builder.Services.AddHostedService<Worker>();
+        CreateHostBuilder(args)
+            .Build()
+            .Run();
+    }
 
-        IHost host = builder.Build();
-        host.Run();
+    public static IHostBuilder CreateHostBuilder(string[] args)
+    {
+        IHostBuilder builder = Host.CreateDefaultBuilder(args);
+
+        builder.ConfigureServices((hostContext, services) =>
+        {
+            // TODO: Configure services
+        });
+
+        return builder;
     }
 }
