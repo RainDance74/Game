@@ -1,6 +1,12 @@
 using System.Reflection;
 
+using JobService.Background;
 using JobService.Configurations;
+using JobService.Database;
+
+using MassTransit;
+
+using Microsoft.EntityFrameworkCore;
 
 internal class Program
 {
@@ -18,10 +24,35 @@ internal class Program
 
         builder.ConfigureServices((hostContext, services) =>
         {
+            services.AddDbContext<AppDbContext>((sp, options) =>
+            {
+                var connectionString = hostContext.Configuration.GetConnectionString("DefaultConnection");
+
+                options.UseNpgsql(connectionString);
+            });
+
+            services.AddHostedService<PayrollBackgroundService>();
+            services.AddHostedService<JobsBackgroundService>();
+
             IConfigurationSection rabbitMqSection = hostContext.Configuration.GetSection("RabbitMqConfiguration");
             RabbitMqConfiguration? rabbitMqConfig = rabbitMqSection.Get<RabbitMqConfiguration>();
 
-            // TODO: Configure services
+            services.AddMassTransit(x =>
+            {
+                x.AddConsumers(Assembly.GetExecutingAssembly());
+
+                x.UsingRabbitMq((context, cfg) =>
+                {
+                    cfg.ConfigureEndpoints(context);
+
+                    cfg.Host(rabbitMqConfig?.Hostname, rabbitMqConfig?.VirtualHost, h =>
+                    {
+                        h.Username(rabbitMqConfig?.Username);
+                        h.Password(rabbitMqConfig?.Password);
+                    });
+                });
+
+            });
         });
 
         return builder;
