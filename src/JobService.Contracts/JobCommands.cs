@@ -4,4 +4,5 @@
     public record PickRandomJob();
     public record HirePerson(Guid JobId, Guid PersonId);
     public record FirePerson(Guid JobId, Guid PersonId);
+    public record GetPersonJob(Guid PersonId);
 }
