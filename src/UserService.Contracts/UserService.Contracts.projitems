@@ -9,5 +9,7 @@
     <Import_RootNamespace>UserService.Contracts</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)UserCommands.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserResponses.cs" />
   </ItemGroup>
 </Project>

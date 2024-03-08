@@ -60,5 +60,6 @@ Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		src\JobService.Contracts\JobService.Contracts.projitems*{7947d34b-b20e-4334-a87a-9c4266ec0c25}*SharedItemsImports = 13
 		src\UserService.Contracts\UserService.Contracts.projitems*{9cdd93b9-9dfb-43b1-a39c-f414dc6ac5fb}*SharedItemsImports = 13
+		src\UserService.Contracts\UserService.Contracts.projitems*{cc95e007-8f59-4d7a-a479-9b83991c19ff}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal
