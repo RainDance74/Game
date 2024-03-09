@@ -18,6 +18,8 @@ public class CreateJobConsumer(AppDbContext _dbContext)
 
         await _dbContext.AddAsync(newJob);
 
+        await _dbContext.SaveChangesAsync();
+
         await context.RespondAsync<JobCreated>(new(newJob.Id));
     }
 }
