@@ -18,6 +18,6 @@ public class PickRandomJobConsumer(AppDbContext _dbContext)
             .FirstOrDefaultAsync()
             ?? throw new Exception("There is no any jobs!");
 
-        await context.RespondAsync<RandomJobPicked>(new(randomJob.Id));
+        await context.RespondAsync<JobReceived>(new(randomJob.Id, randomJob.Salary));
     }
 }
