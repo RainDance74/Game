@@ -15,9 +15,7 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\UserService\UserService.csproj" />
-  </ItemGroup>
-
   <Import Project="..\JobService.Contracts\JobService.Contracts.projitems" Label="Shared" />
+
+  <Import Project="..\UserService.Contracts\UserService.Contracts.projitems" Label="Shared" />
 </Project>
