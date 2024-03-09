@@ -13,7 +13,12 @@ internal class TryFindJobConsumer(IRequestClient<GetPersonJob> _getPersonJobClie
 {
     public async Task Consume(ConsumeContext<TryFindJob> context)
     {
-        Response<JobReceived> userJobReceived= default!;
+        if(new Random().Next(1, 3) != 3)
+        {
+            throw new Exception("Nah");
+        }
+
+        Response<JobReceived> userJobReceived = default!;
 
         Response<JobReceived> randomJobReceived = default!;
 

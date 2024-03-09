@@ -11,11 +11,6 @@ public class HirePersonConsumer(AppDbContext _dbContext)
 {
     public async Task Consume(ConsumeContext<HirePerson> context)
     {
-        if(new Random().Next(1, 3) != 3)
-        {
-            throw new Exception("Nah");
-        }
-
         Job job = await _dbContext.FindAsync<Job>([context.Message.JobId])
             ?? throw new Exception("There is no job with this id!");
 
