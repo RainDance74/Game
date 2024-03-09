@@ -1,6 +1,9 @@
 using System.Reflection;
 
+using MassTransit;
+
 using OrchestratorService.Configurations;
+using OrchestratorService.StateMachines.RegistrationStateMachine;
 
 internal class Program
 {
@@ -21,7 +24,23 @@ internal class Program
             IConfigurationSection rabbitMqSection = hostContext.Configuration.GetSection("RabbitMqConfiguration");
             RabbitMqConfiguration? rabbitMqConfig = rabbitMqSection.Get<RabbitMqConfiguration>();
 
-            // TODO: Configure services
+            services.AddMassTransit(x =>
+            {
+                x.AddSagaRepository<RegistrationState>();
+
+                x.AddSagaStateMachine<RegistrationStateMachine, RegistrationState>();
+
+                x.UsingRabbitMq((context, cfg) =>
+                {
+                    cfg.ConfigureEndpoints(context);
+
+                    cfg.Host(rabbitMqConfig?.Hostname, rabbitMqConfig?.VirtualHost, h =>
+                    {
+                        h.Username(rabbitMqConfig?.Username);
+                        h.Password(rabbitMqConfig?.Password);
+                    });
+                });
+            });
         });
 
         return builder;
