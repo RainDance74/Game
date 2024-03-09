@@ -4,8 +4,8 @@ using MassTransit;
 
 namespace JobService.Background;
 
-public class JobsBackgroundService(ILogger<JobsBackgroundService> _logger,
-    ISendEndpointProvider _sendEndpointProvider)
+public class JobsBackgroundService(IServiceProvider _serviceProvider,
+    ILogger<JobsBackgroundService> _logger)
     : BackgroundService
 {
     private readonly Mutex _mutex = new(false, "Global\\JobsBackgroundService_Mutex");
@@ -23,14 +23,24 @@ public class JobsBackgroundService(ILogger<JobsBackgroundService> _logger,
 
         while(!stoppingToken.IsCancellationRequested)
         {
-            await CreateRandomJob(stoppingToken);
+            using(IServiceScope scope = _serviceProvider.CreateScope())
+            {
+                IPublishEndpoint publishEndpointProvider = scope.ServiceProvider.GetRequiredService<IPublishEndpoint>();
+
+                await CreateRandomJob(publishEndpointProvider, stoppingToken);
+            }
 
             await Task.Delay(TimeSpan.FromMinutes(_random.Next(1, 10)), stoppingToken);
         }
     }
 
-    public async Task CreateRandomJob(CancellationToken stoppingToken) =>
-        await _sendEndpointProvider.Send<CreateJob>(new(_random.Next(300, 3000)), stoppingToken);
+    public async Task CreateRandomJob(IPublishEndpoint publishEndpointProvider, CancellationToken stoppingToken)
+    {
+        var jobSalary = _random.Next(300, 3000);
+        await publishEndpointProvider.Publish<CreateJob>(new(jobSalary), stoppingToken);
+        _logger.LogInformation(
+            "Jobs Background Service: new job with salary of {Salary} published to create.", jobSalary);
+    }
 
     public override async Task StopAsync(CancellationToken stoppingToken)
     {

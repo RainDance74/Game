@@ -10,8 +10,7 @@ using UserService.Contracts;
 namespace JobService.Background;
 
 public class PayrollBackgroundService(IServiceProvider _serviceProvider,
-    ILogger<PayrollBackgroundService> _logger,
-    ISendEndpointProvider _sendEndpointProvider)
+    ILogger<PayrollBackgroundService> _logger)
     : BackgroundService
 {
     private readonly Mutex _mutex = new(false, "Global\\PayrollBackgroundService_Mutex");
@@ -31,15 +30,16 @@ public class PayrollBackgroundService(IServiceProvider _serviceProvider,
             using(IServiceScope scope = _serviceProvider.CreateScope())
             {
                 AppDbContext dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                IPublishEndpoint publishEndpointProvider = scope.ServiceProvider.GetRequiredService<IPublishEndpoint>();
 
-                await Payroll(dbContext, stoppingToken);
+                await Payroll(dbContext, publishEndpointProvider, stoppingToken);
             }
 
             await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
         }
     }
 
-    public async Task Payroll(AppDbContext context, CancellationToken stoppingToken)
+    public async Task Payroll(AppDbContext context, IPublishEndpoint publishEndpointProvider, CancellationToken stoppingToken)
     {
         Job[] jobs = await context.Jobs
             .AsNoTracking()
@@ -47,11 +47,11 @@ public class PayrollBackgroundService(IServiceProvider _serviceProvider,
 
         foreach(Job job in jobs)
         {
-            await Task.WhenAll(job.Workers.Select(w => Payroll(w, job.Salary)));
+            await Task.WhenAll(job.Workers.Select(w => Payroll(w.Id, job.Salary)));
         }
 
         async Task Payroll(Guid worker, decimal salary) =>
-            await _sendEndpointProvider.Send<IncrementUserBalance>(new(worker, salary), stoppingToken);
+            await publishEndpointProvider.Publish<IncrementUserBalance>(new(worker, salary), stoppingToken);
     }
 
     public override async Task StopAsync(CancellationToken stoppingToken)
