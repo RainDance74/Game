@@ -14,7 +14,7 @@ public class FirePersonConsumer(AppDbContext _dbContext)
         Job job = await _dbContext.FindAsync<Job>([context.Message.JobId])
             ?? throw new Exception("There is no job with this id!");
 
-        job.Workers.Remove(context.Message.PersonId);
+        job.Workers.Remove(new(context.Message.PersonId));
 
         await _dbContext.SaveChangesAsync();
     }

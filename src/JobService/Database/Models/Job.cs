@@ -7,5 +7,5 @@ public class Job
 
     public decimal Salary { get; set; }
 
-    public List<Guid> Workers { get; } = [];
+    public HashSet<Worker> Workers { get; } = [];
 }

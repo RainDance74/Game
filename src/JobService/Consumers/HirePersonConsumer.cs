@@ -19,7 +19,7 @@ public class HirePersonConsumer(AppDbContext _dbContext)
         Job job = await _dbContext.FindAsync<Job>([context.Message.JobId])
             ?? throw new Exception("There is no job with this id!");
 
-        job.Workers.Add(context.Message.PersonId);
+        job.Workers.Add(new(context.Message.PersonId));
 
         await _dbContext.SaveChangesAsync();
     }

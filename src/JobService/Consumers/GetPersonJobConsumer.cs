@@ -14,7 +14,7 @@ public class GetPersonJobConsumer(AppDbContext _dbContext)
     public async Task Consume(ConsumeContext<GetPersonJob> context)
     {
         Job userJob = await _dbContext.Jobs
-            .FirstOrDefaultAsync(j => j.Workers.Contains(context.Message.PersonId))
+            .FirstOrDefaultAsync(j => j.Workers.Contains(new(context.Message.PersonId)))
             ?? throw new Exception("Job wasn't found.");
 
         await context.RespondAsync<JobReceived>(new(userJob.Id, userJob.Salary));
