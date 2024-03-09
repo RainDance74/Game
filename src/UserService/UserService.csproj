@@ -16,4 +16,6 @@
   </ItemGroup>
 
   <Import Project="..\UserService.Contracts\UserService.Contracts.projitems" Label="Shared" />
+
+  <Import Project="..\JobService.Contracts\JobService.Contracts.projitems" Label="Shared" />
 </Project>
