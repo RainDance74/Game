@@ -22,9 +22,9 @@ public class RegistrationStateMachine : MassTransitStateMachine<RegistrationStat
 
         InstanceState(x => x.CurrentState);
 
-        Event(() => RegistrationRequested);
-        Request(() => CreateUserRequest, x => x.Timeout = TimeSpan.FromMinutes(1));
-        Request(() => PickRandomJobRequest, x => x.Timeout = TimeSpan.FromMinutes(1));
+        Event(() => RegistrationRequested, x => x.CorrelateById(context => context.MessageId ?? NewId.NextSequentialGuid()));
+        Request(() => CreateUserRequest);
+        Request(() => PickRandomJobRequest);
 
         Initially(
             When(RegistrationRequested)
