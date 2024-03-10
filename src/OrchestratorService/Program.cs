@@ -26,9 +26,11 @@ internal class Program
 
             services.AddMassTransit(x =>
             {
-                x.AddSagaRepository<RegistrationState>();
+                x.AddSagaRepository<RegistrationState>()
+                    .InMemoryRepository();
 
-                x.AddSagaStateMachine<RegistrationStateMachine, RegistrationState>();
+                x.AddSagaStateMachine<RegistrationStateMachine, RegistrationState>()
+                    .InMemoryRepository();
 
                 x.UsingRabbitMq((context, cfg) =>
                 {
