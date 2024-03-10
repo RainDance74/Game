@@ -9,12 +9,22 @@ using UserService.Database;
 
 internal class Program
 {
+    private static bool _isDevelopment;
+
     private static void Main(string[] args)
     {
         Console.Title = Assembly.GetExecutingAssembly().GetName().Name!;
-        CreateHostBuilder(args)
-            .Build()
-            .Run();
+
+        IHostBuilder builder = CreateHostBuilder(args);
+
+        IHost host = builder.Build();
+
+        if(_isDevelopment)
+        {
+            host.InitializeDatabaseAsync().Wait();
+        }
+
+        host.Run();
     }
 
     public static IHostBuilder CreateHostBuilder(string[] args)
@@ -29,6 +39,8 @@ internal class Program
 
                 options.UseNpgsql(connectionString);
             });
+
+            services.AddScoped<AppDbContextInitializer>();
 
             IConfigurationSection rabbitMqSection = hostContext.Configuration.GetSection("RabbitMqConfiguration");
             RabbitMqConfiguration? rabbitMqConfig = rabbitMqSection.Get<RabbitMqConfiguration>();
@@ -48,6 +60,8 @@ internal class Program
                     });
                 });
             });
+
+            _isDevelopment = hostContext.HostingEnvironment.IsDevelopment();
         });
 
         return builder;
