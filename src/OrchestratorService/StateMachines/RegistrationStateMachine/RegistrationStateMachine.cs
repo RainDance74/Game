@@ -22,7 +22,7 @@ public class RegistrationStateMachine : MassTransitStateMachine<RegistrationStat
 
         InstanceState(x => x.CurrentState);
 
-        Event(() => RegistrationRequested, x => x.CorrelateById(context => NewId.NextGuid()));
+        Event(() => RegistrationRequested);
         Request(() => CreateUserRequest, x => x.Timeout = TimeSpan.FromMinutes(1));
         Request(() => PickRandomJobRequest, x => x.Timeout = TimeSpan.FromMinutes(1));
 
@@ -30,11 +30,13 @@ public class RegistrationStateMachine : MassTransitStateMachine<RegistrationStat
             When(RegistrationRequested)
                 .Then(context =>
                 {
-                    _logger.LogInformation("Registration requested for username: {Username}", context.Message.Username);
+                    _logger.LogInformation("[{Date}][SAGA] Registration requested for username: {Username}. CorrelationId: {CorrelationId}",
+                        DateTime.Now, context.Message.Username, context.CorrelationId);
                 })
                 .Request(CreateUserRequest, context => context.Init<CreateUser>(new
                 {
-                    Username = context.Message.Username
+                    context.Message.Username,
+                    __CorelationId = context.Saga.CorrelationId
                 }))
                 .TransitionTo(FindingJob)
         );
@@ -46,7 +48,10 @@ public class RegistrationStateMachine : MassTransitStateMachine<RegistrationStat
                     context.Saga.UserId = context.Message.Id;
                     _logger.LogInformation("[{Date}][SAGA] Got user. CorrelationId: {Id}", DateTime.Now, context.Saga.CorrelationId);
                 })
-                .Request(PickRandomJobRequest, context => context.Init<PickRandomJob>(new { }))
+                .Request(PickRandomJobRequest, context => context.Init<PickRandomJob>(new
+                {
+                    __CorelationId = context.Saga.CorrelationId
+                }))
                 .TransitionTo(AwaitingJob));
 
         During(AwaitingJob,
@@ -59,7 +64,8 @@ public class RegistrationStateMachine : MassTransitStateMachine<RegistrationStat
                 .PublishAsync(context => context.Init<HirePerson>(new
                 {
                     JobId = context.Saga.FutureUserJob,
-                    PersonId = context.Saga.UserId
+                    PersonId = context.Saga.UserId,
+                    __CorelationId = context.Saga.CorrelationId
                 }))
                 .Finalize());
 
